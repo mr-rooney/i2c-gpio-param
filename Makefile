@@ -1,4 +1,4 @@
-obj-m := i2c-gpio-param.o
+obj-m += i2c-gpio-param.o
 
 PWD := $(shell pwd)
 all:
