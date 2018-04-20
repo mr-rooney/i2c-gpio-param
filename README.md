@@ -1,4 +1,4 @@
-credits
+Credits
 =======
 Thanks to Krzysztof A. Adamski for providing this source code. The original code can be found 
 at https://github.com/kadamski/i2c-gpio-param.
@@ -8,7 +8,7 @@ i2c-gpio-param
 Linux kernel module for adding GPIO bitbanged I²C host device. It uses i2c-gpio module
 but adds a way to dynamicaly add and remove busses when kernel is load and using sysfs
 interface.
-It is designed for and tested on Raspberry Pi but it should work (with possible minor changes like
+It is designed for and tested on the Raspberry Pi but it should work (with possible minor changes like
 pin_blacklist) on any other devices.
 
 Installation
