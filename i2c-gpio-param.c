@@ -3,6 +3,7 @@
 #include <linux/module.h>
 #include <linux/i2c-gpio.h>
 #include <linux/init.h>
+#include <linux/version.h>
 
 #define MAX_BUSES 8
 #define MODNAME "i2c-gpio-param"
@@ -113,19 +114,33 @@ static ssize_t remove_bus_store(struct class *class,
     return -ENOENT;
 }
 
-
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 10, 0)
+static CLASS_ATTR_WO(add_bus);
+static CLASS_ATTR_WO(remove_bus);
+static struct attribute *i2c_gpio_param_class_attrs[] = {
+	&class_attr_add_bus.attr,
+	&class_attr_remove_bus.attr,
+	NULL,
+};
+ATTRIBUTE_GROUPS(i2c_gpio_param_class);
+#else
 static struct class_attribute i2c_gpio_param_class_attrs[] = {
     __ATTR(add_bus, 0200, NULL, add_bus_store),
     __ATTR(remove_bus, 0200, NULL, remove_bus_store),
     __ATTR_NULL,
 };
+#endif
 
 static struct class i2c_gpio_param_class = {
     .name =     "i2c-gpio",
     .owner =    THIS_MODULE,
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 10, 0)
+    .class_groups = i2c_gpio_param_class_groups,
+#else
     .class_attrs =  i2c_gpio_param_class_attrs,
-};
+#endif
+}; 
 
 static void removebus(unsigned int i) {
     platform_device_unregister(busses[i].pdev);
